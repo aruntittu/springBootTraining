@@ -16,6 +16,7 @@ export class AppComponent implements OnInit{
 
   signOut() {
     sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('orderId');
     this.router.navigate(["/"]).then();
     document.getElementById('signOut').style.display="none";
     document.getElementById('shoppingCart').style.display="none";

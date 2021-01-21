@@ -29,6 +29,10 @@ export class ApiService {
     return this.httpClient.get("http://localhost:8080/api/v1/product");
   }
 
+  public getProduct(id: number) {
+    return this.httpClient.get("http://localhost:8080/api/v1/product/"+id);
+  }
+
   public addToCart(cartItem: Object) {
     return this.httpClient.post("http://localhost:8080/api/v1/cart", cartItem);
   }

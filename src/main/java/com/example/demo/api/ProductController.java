@@ -24,6 +24,7 @@ public class ProductController {
         productService.save(product);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(path ="{id}")
     public Product get(@PathVariable(value = "id") int id) {
         return productService.get(id);

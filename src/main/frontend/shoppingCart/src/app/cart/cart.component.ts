@@ -30,6 +30,11 @@ export class CartComponent implements OnInit {
             this.intermediateTotal = product[0].price * product[1];
             this.total = this.total + this.intermediateTotal;
           }
+          if(this.total>0) {
+            //document.getElementById('orderButton').style.display="block";
+          } else {
+            document.getElementById('orderButton').style.display="none";
+          }
         }
       )
     }

@@ -17,7 +17,7 @@
     <tbody>
     <tr *ngFor="let orderDetail of orderDetails, let i=index;">
       <th scope="row">{{i+1}}</th>
-      <td>{{orderDetail.product.name}}</td>
+      <td><a routerLink="/product/{{orderDetail.product.id}}">{{orderDetail.product.name}}</a></td>
       <td>{{orderDetail.quantity}}</td>
       <td>{{orderDetail.product.price}}</td>
       <td>{{orderDetail.quantity * orderDetail.product.price}}</td>

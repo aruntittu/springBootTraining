@@ -8,9 +8,9 @@
     <div class=" col-sm-3" style="width: 18rem;" *ngFor="let product of products">
       <img src="{{product.imageLocation}}" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">{{product.name}}</h5>
-        <p class="card-text">{{product.description}}</p>
-        <footer class="blockquote-footer"> <cite title="price">₹</cite>{{product.price}}</footer>
+          <h5 class="card-title"><a routerLink="/product/{{product.id}}">{{product.name}}</a></h5>
+          <p class="card-text">{{product.description}}</p>
+          <footer class="blockquote-footer"> <cite title="price">₹</cite>{{product.price}}</footer>
         <input type="number" placeholder="Quantity" class="form-control quantity" id="quantity{{product.id}}">
         <a (click)="addToCart(product.id)" class="btn btn-primary addToCart">Add to cart</a>
       </div>
