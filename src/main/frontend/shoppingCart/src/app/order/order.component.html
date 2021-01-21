@@ -16,7 +16,7 @@
     <tr *ngFor="let userOrder of userOrders, let i=index;">
       <th scope="row">{{i+1}}</th>
       <td>{{userOrder.createdDate | date:'medium'}}</td>
-      <td><button class="btn btn-primary">View Details</button></td>
+      <td><button (click)="getDetails(userOrder.id)" class="btn btn-info">View Details</button></td>
     </tr>
     </tbody>
   </table>

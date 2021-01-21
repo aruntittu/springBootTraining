@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Login} from "../model/Login";
 import {Person} from "../model/Person";
-import {CartItem} from "../model/CartItem";
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +47,9 @@ export class ApiService {
 
   public getOrders(id: String) {
     return this.httpClient.get("http://localhost:8080/api/v1/order/"+id);
+  }
+
+  public getOrderDetails(id: String) {
+    return this.httpClient.get("http://localhost:8080/api/v1/order/orderDetails/"+id);
   }
 }

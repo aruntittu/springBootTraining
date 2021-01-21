@@ -30,4 +30,8 @@ export class OrderComponent implements OnInit {
     }
   }
 
+  getDetails(id: any) {
+    sessionStorage.setItem('orderId', id);
+    this.router.navigate(["orderDetails"]).then();
+  }
 }

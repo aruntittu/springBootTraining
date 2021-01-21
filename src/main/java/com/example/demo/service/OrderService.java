@@ -5,6 +5,7 @@ import com.example.demo.model.CartItems;
 import com.example.demo.model.OrderItems;
 import com.example.demo.model.Person;
 import com.example.demo.model.UserOrders;
+import com.example.demo.model.projections.OrderDetailsView;
 import com.example.demo.repository.CartItemsRepository;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.UserOrdersRepository;
@@ -36,5 +37,10 @@ public class OrderService implements OrderItemsDao {
             OrderItems savedOrderItem = this.orderRepository.save(orderItem);
         }
         this.cartItemsRepository.deleteByPerson(person);
+    }
+
+    @Override
+    public Iterable<OrderDetailsView> getOrderDetails(UserOrders userOrder) {
+       return this.orderRepository.findOrderItemsByUserOrder(userOrder);
     }
 }

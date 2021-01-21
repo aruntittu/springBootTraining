@@ -1,5 +1,7 @@
 package com.example.demo.api;
 
+import com.example.demo.model.UserOrders;
+import com.example.demo.model.projections.OrderDetailsView;
 import com.example.demo.model.projections.UserOrderView;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.UserOrdersService;
@@ -27,5 +29,13 @@ public class OrderController {
     @GetMapping(path = "{id}")
     public Iterable<UserOrderView> findOrderForPerson(@PathVariable(value = "id") long personId) {
         return this.userOrdersService.findUserOrderByPerson(personId);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(path = "orderDetails/{id}")
+    public Iterable<OrderDetailsView> findOrderDetails(@PathVariable(value = "id") long userOrderId) {
+        UserOrders userOrder = new UserOrders();
+        userOrder.setId(userOrderId);
+        return this.orderService.getOrderDetails(userOrder);
     }
 }
