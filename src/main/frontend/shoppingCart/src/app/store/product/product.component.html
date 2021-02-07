@@ -4,13 +4,13 @@
   <div>
     <div class="row">
       <div class="col-md-7">
-        <h3>{{product.name | uppercase}}</h3>
-        <p>Description: {{product.description}}</p>
+        <h3>{{product["name"] | uppercase}}</h3>
+        <p>Description: {{product["description"]}}</p>
         <br>
-        <p>Price: ₹{{product.price}}</p>
+        <p>Price: ₹{{product["price"]}}</p>
       </div>
       <div class="col-md-2">
-        <img class="img-fluid" src="{{product.imageLocation}}" alt="">
+        <img class="img-fluid" src="{{product['imageLocation']}}" alt="">
       </div>
       <div class="col-md-1"></div>
       <div class="text-right col-md-2">
