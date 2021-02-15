@@ -1,8 +1,13 @@
 package com.example.demo.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class CartItems {
 
 	@Id
@@ -24,41 +29,5 @@ public class CartItems {
 		this.person = person;
 		this.product = product;
 		this.quantity = quantity;
-	}
-
-	public CartItems(){
-
-	}
-
-	public Long getId(){
-		return this.id;
-	}
-
-	public void setId(Long id){
-		this.id = id;
-	}
-
-	public Integer getQuantity(){
-		return this.quantity;
-	}
-
-	public void setQuantity(Integer quantity){
-		this.quantity = quantity;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 }

@@ -1,11 +1,15 @@
 package com.example.demo.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class UserOrders {
 
     @Id
@@ -19,34 +23,7 @@ public class UserOrders {
     @CreatedDate
     private Date createdDate = new Date();
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public UserOrders(Person person) {
-        this.person = person;
-    }
-
-    public UserOrders() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
         this.person = person;
     }
 }
