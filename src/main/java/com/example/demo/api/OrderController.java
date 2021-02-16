@@ -38,4 +38,11 @@ public class OrderController {
         userOrder.setId(userOrderId);
         return this.orderService.getOrderDetails(userOrder);
     }
+
+    //Stored Procedure
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping(path = "orderDetails/total/{id}")
+    public int totalOrdersByPerson_StoredProcedure(@PathVariable(value = "id") long person_id) {
+        return this.userOrdersService.totalOrders(person_id);
+    }
 }

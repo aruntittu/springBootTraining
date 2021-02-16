@@ -8,4 +8,6 @@ public interface UserOrdersDao {
     void save(UserOrders userOrder);
 
     Iterable<UserOrderView> findUserOrderByPerson(long personId);
+
+    int totalOrders(long person_id);
 }

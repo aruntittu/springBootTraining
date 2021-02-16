@@ -9,6 +9,20 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(
+                name = "getTotalOrdersByPerson",
+                procedureName = "GET_TOTAL_ORDERS_BY_PERSON",
+                resultClasses = { UserOrders.class },
+                parameters = {
+                        @StoredProcedureParameter(
+                                name = "p_id",
+                                type = Long.class,
+                                mode = ParameterMode.IN
+                        )
+                }
+        )
+})
 @Getter @Setter @NoArgsConstructor
 public class UserOrders {
 

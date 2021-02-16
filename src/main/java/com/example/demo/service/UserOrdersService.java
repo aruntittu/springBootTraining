@@ -29,4 +29,10 @@ public class UserOrdersService implements UserOrdersDao {
         person.setId(personId);
         return this.userOrdersRepository.findUserOrdersByPerson(person);
     }
+
+    @Override
+    public int totalOrders(long person_id) {
+        return this.userOrdersRepository.GET_TOTAL_ORDERS_BY_PERSON(person_id);
+    }
+
 }
