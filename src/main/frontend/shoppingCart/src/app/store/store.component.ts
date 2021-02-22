@@ -55,6 +55,9 @@ export class StoreComponent implements OnInit {
         (data) => {
           (<HTMLInputElement>document.getElementById(inputElement)).value = '';
           document.getElementById("successModal").click();
+        },
+        error => {
+          document.getElementById("errorModal").click();
         });
 
     } else {

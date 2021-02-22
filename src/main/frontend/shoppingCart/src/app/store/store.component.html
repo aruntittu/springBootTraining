@@ -52,6 +52,24 @@
       </div>
     </div>
   </div>
+
+  <button type="button" id="errorModal" [hidden]="true" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3"></button>
+  <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header alert-danger">
+          <h5 class="modal-title" id="exampleModalLabel3">Error</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          There is an error with server. Pls try again later!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
