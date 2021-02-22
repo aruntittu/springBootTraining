@@ -1,10 +1,10 @@
 package com.example.demo.dao;
 
-import com.example.demo.model.Person;
+import com.example.demo.model.projections.LoginDetailsView;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 public interface LoginDao {
 
-    Person getLogin(String username, String password);
+    LoginDetailsView getLogin(String username, String password);
 }

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.LoginDao;
-import com.example.demo.model.Person;
+import com.example.demo.model.projections.LoginDetailsView;
 import com.example.demo.repository.LoginRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +18,7 @@ public class LoginService implements LoginDao {
     }
 
     @Override
-    public Person getLogin(String username, String password) {
+    public LoginDetailsView getLogin(String username, String password) {
         return loginRepository.findByUsernameAndPassword(username, password);
     }
 
