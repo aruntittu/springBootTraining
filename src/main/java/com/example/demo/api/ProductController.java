@@ -3,10 +3,13 @@ package com.example.demo.api;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+
 
 @RequestMapping("api/v1/product")
 @RestController
@@ -18,8 +21,8 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
     public void save(@RequestBody Product product) {
         productService.save(product);
     }
@@ -46,17 +49,30 @@ public class ProductController {
         productService.deleteProductById(id);
     }
 
-    @ExceptionHandler(EntityExistsException.class)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseBody
-    @ResponseStatus(value = HttpStatus.CONFLICT)
-    public String handleEntityExistsException(EntityExistsException e) {
-        return e.getMessage();
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleEntityExistsException(MethodArgumentTypeMismatchException e) {
+        return "Invalid Request, Product ID should be a number";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseBody
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public String handleEntityNotFoundException(EntityNotFoundException e) {
-        return e.getMessage();
+        return "Product with that ID doesn't exist";
     }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public String handleTransactionSystemException(TransactionSystemException e) {
+        Throwable cause = ((TransactionSystemException) e).getRootCause();
+        if (cause instanceof ConstraintViolationException) {
+            return "Validation failed for Product properties. Name and price must not be null";
+        } else {
+            return e.getLocalizedMessage();
+        }
+    }
+
 }
