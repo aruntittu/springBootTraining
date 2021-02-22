@@ -3,9 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dao.ProductDao;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
@@ -34,28 +34,27 @@ public class ProductService implements ProductDao {
             exitingProduct.setDescription(product.getDescription());
             exitingProduct.setImageLocation(product.getImageLocation());
             productRepository.save(exitingProduct);
-        } else {
-            throw new EntityNotFoundException();
         }
     }
 
     @Override
     @Transactional
-    public void deleteProductById(int id) {
+    public HttpStatus deleteProductById(int id) {
         if(productRepository.findById(id).isPresent()) {
             productRepository.deleteById(id);
+            return HttpStatus.OK;
         } else {
-            throw new EntityNotFoundException();
+            return HttpStatus.NOT_FOUND;
         }
     }
 
     @Override
     @Transactional
-    public Product get(Integer id){
+    public Product get(Integer id) {
         if(productRepository.findById(id).isPresent()) {
             return productRepository.findById(id).get();
         } else {
-            throw new EntityNotFoundException();
+            return null;
         }
     }
 
