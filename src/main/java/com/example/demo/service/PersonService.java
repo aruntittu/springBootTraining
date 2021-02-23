@@ -8,7 +8,9 @@ import com.example.demo.repository.PersonRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
@@ -35,9 +37,14 @@ public class PersonService implements PersonDao{
         Person savedPerson = personRepository.save(person);
         if(personRepository.findById(savedPerson.getId()).isPresent()) {
             Login l = person.getLogin();
-            l.setPerson(savedPerson);
-            loginRepository.save(l);
-            return savedPerson.getId();
+            if(l!=null) {
+                l.setPerson(savedPerson);
+                loginRepository.save(l);
+                return savedPerson.getId();
+            } else {
+                throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            }
+
         } else {
             return null;
         }
@@ -59,7 +66,7 @@ public class PersonService implements PersonDao{
              personRepository.deleteById(id);
              return HttpStatus.OK;
         } else {
-            return HttpStatus.NOT_FOUND;
+            throw new EntityNotFoundException();
         }
     }
 
@@ -68,7 +75,7 @@ public class PersonService implements PersonDao{
         if(personRepository.findById(id).isPresent()) {
             return personRepository.findById(id).get();
         } else {
-            return null;
+            throw new EntityNotFoundException();
         }
     }
 }
