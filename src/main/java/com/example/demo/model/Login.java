@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -18,10 +19,12 @@ public class Login {
     private long id;
 
     @NaturalId
+    @NotNull
     @Column(unique = true)
     private String username;
 
     @Column
+    @NotNull
     private String password;
 
     @JsonBackReference
