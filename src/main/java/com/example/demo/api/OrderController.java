@@ -5,7 +5,13 @@ import com.example.demo.model.projections.OrderDetailsView;
 import com.example.demo.model.projections.UserOrderView;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.UserOrdersService;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import javax.persistence.EntityNotFoundException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestController
 @RequestMapping("api/v1/order")
@@ -45,4 +51,31 @@ public class OrderController {
     public int totalOrdersByPerson_StoredProcedure(@PathVariable(value = "id") long person_id) {
         return this.userOrdersService.totalOrders(person_id);
     }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleEntityExistsException(MethodArgumentTypeMismatchException e) {
+        return "Invalid Request, Person ID should be a number";
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+    public String handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        Throwable cause = ((DataIntegrityViolationException) e).getRootCause();
+        if (cause instanceof SQLIntegrityConstraintViolationException) {
+            return "Cannot save order as person with that ID doesn't exist.";
+        } else {
+            return e.getLocalizedMessage();
+        }
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleEntityNotFoundException(EntityNotFoundException e) {
+        return "Users doesn't have products in cart.";
+    }
+
 }
