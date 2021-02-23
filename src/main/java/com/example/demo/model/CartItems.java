@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -23,6 +24,7 @@ public class CartItems {
 	private Product product;
 
 	@Column
+	@NotNull
 	private Integer quantity;
 
 	public CartItems(Person person, Product product, Integer quantity) {

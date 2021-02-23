@@ -52,7 +52,7 @@ public class ProductController {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String handleEntityExistsException(MethodArgumentTypeMismatchException e) {
+    public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         return "Invalid Request, Product ID should be a number";
     }
 
