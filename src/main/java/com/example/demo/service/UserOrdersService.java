@@ -8,14 +8,20 @@ import com.example.demo.repository.UserOrdersRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
+
 @Validated
 @Service
 public class UserOrdersService implements UserOrdersDao {
 
     private UserOrdersRepository userOrdersRepository;
+    private EntityManager entityManager;
 
-    public UserOrdersService(UserOrdersRepository userOrdersRepository) {
+    public UserOrdersService(UserOrdersRepository userOrdersRepository, EntityManager entityManager) {
         this.userOrdersRepository = userOrdersRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -32,7 +38,13 @@ public class UserOrdersService implements UserOrdersDao {
 
     @Override
     public int totalOrders(long person_id) {
-        return this.userOrdersRepository.GET_TOTAL_ORDERS_BY_PERSON(person_id);
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("GET_TOTAL_ORDERS_BY_PERSON")
+                .registerStoredProcedureParameter("person_id", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("total_orders", Integer.class, ParameterMode.OUT);
+
+        query.setParameter("person_id", person_id);
+        query.execute();
+        return (int) query.getOutputParameterValue("total_orders");
     }
 
 }
