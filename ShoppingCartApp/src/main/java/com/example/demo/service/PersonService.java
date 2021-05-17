@@ -32,11 +32,7 @@ public class PersonService implements PersonDao{
     @Transactional
     @Override
     public Long savePerson(Person person) {
-        Person p = new Person();
-        p.setName(person.getName());
-        p.setEmail(person.getEmail());
-        p.setPhone(person.getPhone());
-        Person savedPerson = personRepository.save(p);
+        Person savedPerson = personRepository.save(person);
         if(personRepository.findById(savedPerson.getId()).isPresent()) {
             Login l = person.getLogin();
             l.setPerson(savedPerson);
@@ -50,10 +46,10 @@ public class PersonService implements PersonDao{
     @Override
     public void updatePersonById(long id, Person person) {
         if(personRepository.findById(id).isPresent()) {
-            Person exitingPerson = personRepository.findById(id).get();
-            exitingPerson.setId(id);
-            exitingPerson.setName(person.getName());
-            personRepository.save(exitingPerson);
+            Person existingPerson = personRepository.findById(id).get();
+            existingPerson.setId(id);
+            existingPerson.setName(person.getName());
+            personRepository.save(existingPerson);
         }
     }
 
