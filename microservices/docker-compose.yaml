@@ -1,0 +1,84 @@
+services:
+  currecy-exchange:
+    image: aruntittu/msv2-currency-exchange-service:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - currecy-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASE-url: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  currecy-conversion:
+    image: aruntittu/msv2-currency-conversion-service:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - "8100:8100"
+    networks:
+      - currecy-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASE-url: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  api-gateway:
+    image: aruntittu/msv2-api-gateway:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - "8765:8765"
+    networks:
+      - currecy-network
+    depends_on:
+      - naming-server
+      - rabbitmq
+    environment:
+      EUREKA.CLIENT.SERVICE-URL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASE-url: http://zipkin-server:9411/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+
+  naming-server:
+    image: aruntittu/msv2-naming-server:0.0.1-SNAPSHOT
+    # mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - currecy-network
+
+  zipkin-server:
+    image: openzipkin/zipkin
+    # mem_limit: 300m
+    ports:
+      - "9411:9411"
+    networks:
+      - currecy-network
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq
+    # mem_limit: 300m
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - currecy-network
+
+networks:
+  currecy-network:
